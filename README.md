@@ -29,7 +29,7 @@ Built with **Streamlit**, **CatBoost**, and **Plotly**, the app imitates the liv
 
 1. Clone the repository or download the app file:
 ```bash
-git clone https://github.com/your-username/ghg-forecast-dashboard.git
+git clone https://github.com/Pineappledeydre/gas_emission_prediction.git
 cd ghg-forecast-dashboard
 ```
 
