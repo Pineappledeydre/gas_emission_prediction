@@ -61,7 +61,15 @@ with col2:
 
     if data_log:
         df_log = pd.DataFrame(data_log)
-        fig = px.line(df_log, x="timestamp", y="prediction", color=df_log["gas_type"].map({0: "CH₄", 1: "CO₂"}),
-                      labels={"timestamp": "Время", "prediction": "Прогноз выбросов", "color": "Тип газа"},
-                      title="Прогноз выбросов по времени")
+        
+        # График прогноза по времени
+        fig = px.line(df_log, x="timestamp", y="prediction",
+                      color=df_log["gas_type"].map({0: "CH₄", 1: "CO₂"}),
+                      labels={"timestamp": "Время", "prediction": "Прогноз выбросов"},
+                      title="Прогноз выбросов во времени")
         st.plotly_chart(fig, use_container_width=True)
+        
+        # Таблица последних 5 точек
+        st.markdown("### Последние наблюдения")
+        st.dataframe(df_log.tail(5)[['timestamp', 'temp', 'pressure', 'load', 'gas_type', 'prediction']],
+                     use_container_width=True)
