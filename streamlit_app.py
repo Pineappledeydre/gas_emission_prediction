@@ -61,13 +61,19 @@ with col2:
 
     if data_log:
         df_log = pd.DataFrame(data_log)
+
+        df_avg = (
+            df_log.groupby(['timestamp', 'gas_type'])
+            .agg({'prediction': 'mean'})
+            .reset_index()
+        )
+        df_avg['gas_type'] = df_avg['gas_type'].map({0: "CH₄", 1: "CO₂"})
         
-        # График прогноза по времени
-        fig = px.line(df_log, x="timestamp", y="prediction",
-                      color=df_log["gas_type"].map({0: "CH₄", 1: "CO₂"}),
-                      labels={"timestamp": "Время", "prediction": "Прогноз выбросов"},
-                      title="Прогноз выбросов во времени")
+        fig = px.line(df_avg, x='timestamp', y='prediction', color='gas_type',
+                      title="📈 Средние прогнозы выбросов по времени (CH₄ vs CO₂)",
+                      labels={'prediction': 'Прогноз выбросов', 'timestamp': 'Время'})
         st.plotly_chart(fig, use_container_width=True)
+
         
         # Таблица последних 5 точек
         st.markdown("### Последние наблюдения")
