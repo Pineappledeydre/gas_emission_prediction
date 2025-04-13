@@ -39,21 +39,25 @@ with col1:
         }
 
     data_log = []
-
+    
     placeholder = st.empty()
     with placeholder.container():
         for _ in range(20):
-            data = generate_realtime_data()
-            df_input = pd.DataFrame([data])
-            prediction = model.predict(df_input)[0]
-            data['prediction'] = prediction
-            data['timestamp'] = datetime.now().strftime('%H:%M:%S')
-            data_log.append(data)
-            
-            st.write(f"**⏱️ {data['timestamp']}**")
-            st.dataframe(df_input, use_container_width=True)
-            st.success(f"💨 Прогноз выброса: **{prediction:.2f}** единиц")
-            st.divider()
+            timestamp_now = datetime.now().strftime('%H:%M:%S')
+            for gas_type in [0, 1]:
+                data = generate_realtime_data()
+                data['gas_type'] = gas_type
+                df_input = pd.DataFrame([data])
+                prediction = model.predict(df_input)[0]
+                data['prediction'] = prediction
+                data['timestamp'] = timestamp_now
+                data_log.append(data)
+    
+                st.write(f"**⏱️ {timestamp_now} — {'CH₄' if gas_type == 0 else 'CO₂'}**")
+                st.dataframe(df_input, use_container_width=True)
+                st.success(f"💨 Прогноз выброса: **{prediction:.2f}** единиц")
+                st.divider()
+    
             time.sleep(1.5)
 
 with col2:
