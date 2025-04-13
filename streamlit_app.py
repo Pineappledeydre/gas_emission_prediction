@@ -13,7 +13,7 @@ st.set_page_config(page_title="GHG Emission Forecaster", layout="wide")
 # Загрузка модели
 @st.cache_resource
 def load_model():
-    return joblib.load("catboost_model.pkl")
+    return joblib.load("cat_model.pkl")
 
 model = load_model()
 
